@@ -1,11 +1,18 @@
 {-# LANGUAGE AllowAmbiguousTypes   #-}
 {-# LANGUAGE ConstraintKinds       #-}
+{-# LANGUAGE DataKinds             #-}
 {-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE GADTs                 #-}
+{-# LANGUAGE InstanceSigs          #-}
+{-# LANGUAGE KindSignatures        #-}
+{-# LANGUAGE LambdaCase            #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE RankNTypes            #-}
 {-# LANGUAGE ScopedTypeVariables   #-}
 {-# LANGUAGE TypeApplications      #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE TypeInType            #-}
 {-# LANGUAGE TypeOperators         #-}
 
 module GHC.Generics.Lift (
@@ -15,7 +22,17 @@ module GHC.Generics.Lift (
   , genericLift2
   ) where
 
+import           Data.Kind
 import           GHC.Generics
+
+data N = Z | S N
+data SN :: N -> Type where
+    SZ :: SN 'Z
+    SS :: SN n -> SN ('S n)
+
+type family Func (n :: N) (a :: Type) :: Type where
+    Func 'Z a     = a
+    Func ('S n) a = a -> Func n a
 
 genericLift0
     :: forall a c. (Generic a, GLift c (Rep a))
@@ -36,12 +53,16 @@ genericLift2
 genericLift2 f x y = to (glift2 @c f (from x) (from y))
 
 class GLift c f where
-    glift0 :: (forall a. c a => a) -> f p
-    glift1 :: (forall a. c a => a -> a) -> f p -> f p
-    glift2 :: (forall a. c a => a -> a -> a) -> f p -> f p -> f p
+    gliftArb :: forall n p. SN n -> (forall a. c a => Func n a) -> Func n (f p)
+    glift0   :: (forall a. c a => a) -> f p
+    glift1   :: (forall a. c a => a -> a) -> f p -> f p
+    glift2   :: (forall a. c a => a -> a -> a) -> f p -> f p -> f p
 
 
 instance GLift c f => GLift c (M1 i d f) where
+    -- gliftArb :: forall n p. (forall a. c a => Func n a) -> Func n (f p)
+    -- gliftArb f x = M1 (gliftArb @c @f @n @p f x)
+    -- gliftArb n f = M1 . gliftArb @c n f
     glift0 x = M1 (glift0 @c x)
     glift1 f (M1 x) = M1 (glift1 @c f x)
     glift2 f (M1 x) (M1 y) = M1 (glift2 @c f x y)
@@ -58,6 +79,9 @@ instance c a => GLift c (K1 i a) where
     glift2 f (K1 x) (K1 y) = K1 (f x y)
 
 instance GLift c U1 where
+    -- gliftArb = \case
+    --   SZ   -> \_ -> U1
+    --   SS n -> \f -> gliftArb @c n (f _)
     glift0 _ = U1
     glift1 _ _ = U1
     glift2 _ _ _ = U1
