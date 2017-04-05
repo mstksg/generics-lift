@@ -17,6 +17,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     GHC.Generics.Lift
                      , GHC.Generics.Numeric
+                     , Data.Monoid.Generic
   build-depends:       base >= 4.7 && < 5
   default-language:    Haskell2010
   ghc-options:         -Wall
