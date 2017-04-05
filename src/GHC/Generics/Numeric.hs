@@ -11,6 +11,10 @@ module GHC.Generics.Numeric (
   , genericAbs
   , genericSignum
   , genericFromInteger
+  -- * Fractional
+  , genericDivide
+  , genericRecip
+  , genericFromRational
   ) where
 
 import           GHC.Generics
@@ -51,4 +55,18 @@ genericFromInteger
     => Integer -> a
 genericFromInteger x = genericLift0 @a @Num (fromInteger x)
 
+genericDivide
+    :: forall a. (Generic a, GLift Fractional (Rep a))
+    => a -> a -> a
+genericDivide = genericLift2 @a @Fractional (/)
+
+genericRecip
+    :: forall a. (Generic a, GLift Fractional (Rep a))
+    => a -> a
+genericRecip = genericLift1 @a @Fractional recip
+
+genericFromRational
+    :: forall a. (Generic a, GLift Fractional (Rep a))
+    => Rational -> a
+genericFromRational x = genericLift0 @a @Fractional (fromRational x)
 
