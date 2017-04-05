@@ -7,7 +7,7 @@ license:             BSD3
 license-file:        LICENSE
 author:              Justin Le
 maintainer:          justin@jle.im
-copyright:           (c) Justin Le 2016
+copyright:           (c) Justin Le 2017
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
@@ -16,6 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     GHC.Generics.Lift
+                     , GHC.Generics.Numeric
   build-depends:       base >= 4.7 && < 5
   default-language:    Haskell2010
 

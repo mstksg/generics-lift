@@ -9,6 +9,10 @@
 {-# LANGUAGE TypeOperators         #-}
 
 module GHC.Generics.Lift (
+    GLift(..)
+  , genericLift0
+  , genericLift1
+  , genericLift2
   ) where
 
 import           GHC.Generics
