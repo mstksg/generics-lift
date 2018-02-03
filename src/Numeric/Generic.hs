@@ -1,21 +1,30 @@
-{-# LANGUAGE FlexibleContexts    #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeApplications    #-}
+{-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE DeriveFoldable       #-}
+{-# LANGUAGE DeriveFunctor        #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveTraversable    #-}
+{-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE ScopedTypeVariables  #-}
+{-# LANGUAGE TypeApplications     #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 module Numeric.Generic (
-  -- * Num
-    genericPlus
+  -- * Newtype wrapper
+    GNum(..)
+  -- * Generics-derived methods  
+  -- ** Num
+  , genericPlus
   , genericMinus
   , genericTimes
   , genericNegate
   , genericAbs
   , genericSignum
   , genericFromInteger
-  -- * Fractional
+  -- ** Fractional
   , genericDivide
   , genericRecip
   , genericFromRational
-  -- * Floating
+  -- ** Floating
   , genericPi
   , genericExp
   , genericLog
@@ -36,8 +45,53 @@ module Numeric.Generic (
   , genericAtanh
   ) where
 
+import           Data.Data
 import           GHC.Generics
 import           GHC.Generics.Lift
+
+newtype GNum a = GNum { getGNum :: a }
+  deriving (Eq, Ord, Show, Read, Data, Generic, Functor, Foldable, Traversable)
+
+instance GLift Num (Rep (GNum a)) => Num (GNum a) where
+    (+)         = genericPlus
+    (-)         = genericMinus
+    (*)         = genericTimes
+    negate      = genericNegate
+    abs         = genericAbs
+    signum      = genericSignum
+    fromInteger = genericFromInteger
+
+instance ( GLift Num        (Rep (GNum a))
+         , GLift Fractional (Rep (GNum a))
+         )
+      => Fractional (GNum a) where
+    (/)          = genericDivide
+    recip        = genericRecip
+    fromRational = genericFromRational
+
+instance ( GLift Num        (Rep (GNum a))
+         , GLift Fractional (Rep (GNum a))
+         , GLift Floating   (Rep (GNum a))
+         )
+      => Floating (GNum a) where
+    pi      = genericPi
+    exp     = genericExp
+    log     = genericLog
+    sqrt    = genericSqrt
+    (**)    = genericPower
+    logBase = genericLogBase
+    sin     = genericSin
+    cos     = genericCos
+    tan     = genericTan
+    asin    = genericAsin
+    acos    = genericAcos
+    atan    = genericAtan
+    sinh    = genericSinh
+    cosh    = genericCosh
+    tanh    = genericTanh
+    asinh   = genericAsinh
+    acosh   = genericAcosh
+    atanh   = genericAtanh
 
 genericPlus
     :: forall a. (Generic a, GLift Num (Rep a))
