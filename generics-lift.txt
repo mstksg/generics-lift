@@ -52,7 +52,7 @@ instance GHC.Generics.Lift.GLift c GHC.Generics.U1
 --   instant <a>Semigroup</a> and <a>Monoid</a> instances.
 --   
 --   See README for details on usage instructions and motivations.
-module Data.Monoid.Generic
+module Data.Monoid.Generics
 
 -- | If <tt>a</tt> is a data type with a single constructor whose fields
 --   are all instances of <a>Semigroup</a>, then <tt><a>GMonoid</a> a</tt>
@@ -67,17 +67,17 @@ GMonoid :: a -> GMonoid a
 genericSemigroup :: forall a. (Generic a, GLift Semigroup (Rep a)) => a -> a -> a
 genericMappend :: forall a. (Generic a, GLift Monoid (Rep a)) => a -> a -> a
 genericMempty :: forall a. (Generic a, GLift Monoid (Rep a)) => a
-instance Data.Traversable.Traversable Data.Monoid.Generic.GMonoid
-instance Data.Foldable.Foldable Data.Monoid.Generic.GMonoid
-instance GHC.Base.Functor Data.Monoid.Generic.GMonoid
-instance GHC.Generics.Generic (Data.Monoid.Generic.GMonoid a)
-instance Data.Data.Data a => Data.Data.Data (Data.Monoid.Generic.GMonoid a)
-instance GHC.Read.Read a => GHC.Read.Read (Data.Monoid.Generic.GMonoid a)
-instance GHC.Show.Show a => GHC.Show.Show (Data.Monoid.Generic.GMonoid a)
-instance GHC.Classes.Ord a => GHC.Classes.Ord (Data.Monoid.Generic.GMonoid a)
-instance GHC.Classes.Eq a => GHC.Classes.Eq (Data.Monoid.Generic.GMonoid a)
-instance GHC.Generics.Lift.GLift Data.Semigroup.Semigroup (GHC.Generics.Rep (Data.Monoid.Generic.GMonoid a)) => Data.Semigroup.Semigroup (Data.Monoid.Generic.GMonoid a)
-instance (GHC.Generics.Lift.GLift Data.Semigroup.Semigroup (GHC.Generics.Rep (Data.Monoid.Generic.GMonoid a)), GHC.Generics.Lift.GLift GHC.Base.Monoid (GHC.Generics.Rep (Data.Monoid.Generic.GMonoid a))) => GHC.Base.Monoid (Data.Monoid.Generic.GMonoid a)
+instance Data.Traversable.Traversable Data.Monoid.Generics.GMonoid
+instance Data.Foldable.Foldable Data.Monoid.Generics.GMonoid
+instance GHC.Base.Functor Data.Monoid.Generics.GMonoid
+instance GHC.Generics.Generic (Data.Monoid.Generics.GMonoid a)
+instance Data.Data.Data a => Data.Data.Data (Data.Monoid.Generics.GMonoid a)
+instance GHC.Read.Read a => GHC.Read.Read (Data.Monoid.Generics.GMonoid a)
+instance GHC.Show.Show a => GHC.Show.Show (Data.Monoid.Generics.GMonoid a)
+instance GHC.Classes.Ord a => GHC.Classes.Ord (Data.Monoid.Generics.GMonoid a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Data.Monoid.Generics.GMonoid a)
+instance GHC.Generics.Lift.GLift Data.Semigroup.Semigroup (GHC.Generics.Rep (Data.Monoid.Generics.GMonoid a)) => Data.Semigroup.Semigroup (Data.Monoid.Generics.GMonoid a)
+instance (GHC.Generics.Lift.GLift Data.Semigroup.Semigroup (GHC.Generics.Rep (Data.Monoid.Generics.GMonoid a)), GHC.Generics.Lift.GLift GHC.Base.Monoid (GHC.Generics.Rep (Data.Monoid.Generics.GMonoid a))) => GHC.Base.Monoid (Data.Monoid.Generics.GMonoid a)
 
 
 -- | Derived methods for numeric typeclasses.
@@ -91,7 +91,7 @@ instance (GHC.Generics.Lift.GLift Data.Semigroup.Semigroup (GHC.Generics.Rep (Da
 --   instance.
 --   
 --   See README for details on usage instructions and motivations.
-module Numeric.Generic
+module Numeric.Generics
 
 -- | If <tt>a</tt> is a data type with a single constructor whose fields
 --   are all instances of <a>Num</a>, then <tt><a>GNum</a> a</tt> has a
@@ -135,15 +135,15 @@ genericTanh :: forall a. (Generic a, GLift Floating (Rep a)) => a -> a
 genericAsinh :: forall a. (Generic a, GLift Floating (Rep a)) => a -> a
 genericAcosh :: forall a. (Generic a, GLift Floating (Rep a)) => a -> a
 genericAtanh :: forall a. (Generic a, GLift Floating (Rep a)) => a -> a
-instance Data.Traversable.Traversable Numeric.Generic.GNum
-instance Data.Foldable.Foldable Numeric.Generic.GNum
-instance GHC.Base.Functor Numeric.Generic.GNum
-instance GHC.Generics.Generic (Numeric.Generic.GNum a)
-instance Data.Data.Data a => Data.Data.Data (Numeric.Generic.GNum a)
-instance GHC.Read.Read a => GHC.Read.Read (Numeric.Generic.GNum a)
-instance GHC.Show.Show a => GHC.Show.Show (Numeric.Generic.GNum a)
-instance GHC.Classes.Ord a => GHC.Classes.Ord (Numeric.Generic.GNum a)
-instance GHC.Classes.Eq a => GHC.Classes.Eq (Numeric.Generic.GNum a)
-instance GHC.Generics.Lift.GLift GHC.Num.Num (GHC.Generics.Rep (Numeric.Generic.GNum a)) => GHC.Num.Num (Numeric.Generic.GNum a)
-instance (GHC.Generics.Lift.GLift GHC.Num.Num (GHC.Generics.Rep (Numeric.Generic.GNum a)), GHC.Generics.Lift.GLift GHC.Real.Fractional (GHC.Generics.Rep (Numeric.Generic.GNum a))) => GHC.Real.Fractional (Numeric.Generic.GNum a)
-instance (GHC.Generics.Lift.GLift GHC.Num.Num (GHC.Generics.Rep (Numeric.Generic.GNum a)), GHC.Generics.Lift.GLift GHC.Real.Fractional (GHC.Generics.Rep (Numeric.Generic.GNum a)), GHC.Generics.Lift.GLift GHC.Float.Floating (GHC.Generics.Rep (Numeric.Generic.GNum a))) => GHC.Float.Floating (Numeric.Generic.GNum a)
+instance Data.Traversable.Traversable Numeric.Generics.GNum
+instance Data.Foldable.Foldable Numeric.Generics.GNum
+instance GHC.Base.Functor Numeric.Generics.GNum
+instance GHC.Generics.Generic (Numeric.Generics.GNum a)
+instance Data.Data.Data a => Data.Data.Data (Numeric.Generics.GNum a)
+instance GHC.Read.Read a => GHC.Read.Read (Numeric.Generics.GNum a)
+instance GHC.Show.Show a => GHC.Show.Show (Numeric.Generics.GNum a)
+instance GHC.Classes.Ord a => GHC.Classes.Ord (Numeric.Generics.GNum a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Numeric.Generics.GNum a)
+instance GHC.Generics.Lift.GLift GHC.Num.Num (GHC.Generics.Rep (Numeric.Generics.GNum a)) => GHC.Num.Num (Numeric.Generics.GNum a)
+instance (GHC.Generics.Lift.GLift GHC.Num.Num (GHC.Generics.Rep (Numeric.Generics.GNum a)), GHC.Generics.Lift.GLift GHC.Real.Fractional (GHC.Generics.Rep (Numeric.Generics.GNum a))) => GHC.Real.Fractional (Numeric.Generics.GNum a)
+instance (GHC.Generics.Lift.GLift GHC.Num.Num (GHC.Generics.Rep (Numeric.Generics.GNum a)), GHC.Generics.Lift.GLift GHC.Real.Fractional (GHC.Generics.Rep (Numeric.Generics.GNum a)), GHC.Generics.Lift.GLift GHC.Float.Floating (GHC.Generics.Rep (Numeric.Generics.GNum a))) => GHC.Float.Floating (Numeric.Generics.GNum a)
