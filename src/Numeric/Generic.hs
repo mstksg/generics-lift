@@ -2,7 +2,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications    #-}
 
-module GHC.Generics.Numeric (
+module Numeric.Generic (
   -- * Num
     genericPlus
   , genericMinus
