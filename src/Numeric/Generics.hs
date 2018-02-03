@@ -8,10 +8,32 @@
 {-# LANGUAGE TypeApplications     #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module Numeric.Generic (
+-- |
+-- Module      : Numeric.Generics
+-- Description : Derived methods for numeric typeclasses
+-- Copyright   : (c) Justin Le 2018
+-- License     : BSD-3
+-- Maintainer  : justin@jle.im
+-- Stability   : unstable
+-- Portability : portable
+--
+-- Derived methods for numeric typeclasses.
+--
+-- Can be used for any types (deriving 'Generic') made with a single
+-- constructor, where every field is an instance of 'Num' (or 'Fractional'
+-- or 'Floating', depending on the function).
+--
+-- Also includes a newtype wrapper that imbues any such data type with an
+-- instant 'Num' (and 'Fractional' and 'Floating') instance.
+--
+-- See README for details on usage instructions and motivations.
+--
+
+
+module Numeric.Generics (
   -- * Newtype wrapper
     GNum(..)
-  -- * Generics-derived methods  
+  -- * Generics-derived methods
   -- ** Num
   , genericPlus
   , genericMinus
@@ -49,6 +71,15 @@ import           Data.Data
 import           GHC.Generics
 import           GHC.Generics.Lift
 
+-- | If @a@ is a data type with a single constructor whose fields are all
+-- instances of 'Num', then @'GNum' a@ has a 'Num' instance.
+--
+-- If @a@ is a data type with a single constructor whose fields are all
+-- instances of 'Fractional', then @'GNum' a@ has a 'Fractional' instance.
+--
+-- If @a@ is a data type with a single constructor whose fields are all
+-- instances of 'Floating', then @'GNum' a@ has a 'Floating' instance.
+--
 newtype GNum a = GNum { getGNum :: a }
   deriving (Eq, Ord, Show, Read, Data, Generic, Functor, Foldable, Traversable)
 

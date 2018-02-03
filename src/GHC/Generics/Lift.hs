@@ -8,6 +8,31 @@
 {-# LANGUAGE TypeApplications      #-}
 {-# LANGUAGE TypeOperators         #-}
 
+-- |
+-- Module      : GHC.Generics.Lift
+-- Description : Lift polymorphic typeclass methods
+-- Copyright   : (c) Justin Le 2018
+-- License     : BSD-3
+-- Maintainer  : justin@jle.im
+-- Stability   : unstable
+-- Portability : portable
+--
+-- Lift polymorphic typeclass over product types using Generics.
+--
+-- This module has two main purposes:
+--
+--     (1) Write methods to lift methods of typeclasses to product types
+--     (2) Write default/automatic instances for your typeclasses so users
+--     can auto-derive them
+--
+-- These functions can be used to lift polymorphic functions on any type
+-- (deriving 'Generic') that has a single constructor, where every field is
+-- an instance of the class constraint of the function being lifted.
+--
+-- See README for details on usage instructions and motivations.
+--
+
+
 module GHC.Generics.Lift (
     GLift(..)
   , genericLift0
